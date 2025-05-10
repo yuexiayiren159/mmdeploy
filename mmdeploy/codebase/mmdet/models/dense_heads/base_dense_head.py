@@ -113,7 +113,7 @@ def base_dense_head__predict_by_feat(
         if self.use_sigmoid_cls:
             scores = scores.sigmoid()
         else:
-            scores = scores.softmax(-1)[:, :, :-1]
+            scores = scores.softmax(-1)
         if with_score_factors:
             score_factors = score_factors.permute(0, 2, 3,
                                                   1).reshape(batch_size,
@@ -142,7 +142,7 @@ def base_dense_head__predict_by_feat(
             if self.use_sigmoid_cls:
                 max_scores, _ = nms_pre_score.max(-1)
             else:
-                max_scores, _ = nms_pre_score[..., :-1].max(-1)
+                max_scores, _ = nms_pre_score[..., :-1].max(-1)  # 原始 
             _, topk_inds = max_scores.topk(pre_topk)
             bbox_pred, scores, score_factors = gather_topk(
                 bbox_pred,
