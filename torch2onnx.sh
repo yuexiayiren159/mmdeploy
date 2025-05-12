@@ -185,12 +185,44 @@
 #         --device cpu \
 #         --dump-info
 
-# ssd不带后处理
-python -I ./tools/deploy.py \
-        ./configs/mmdet/detection/detection_onnxruntime_dynamic_raw_ssd.py \
-        ../mmdetection//configs/ssd/ssd_custom.py \
-        ../mmdetection/work_dirs/ssd_custom/epoch_12.pth \
-        ../mmdetection/data/banana-coco/train2017/0.png \
-        --work-dir ./mmdeploy_model/ssd_2 \
-        --device cpu \
-        --dump-info
+# ssd不带后处理  出现错误
+# python -I ./tools/deploy.py \
+#         ./configs/mmdet/detection/detection_onnxruntime_dynamic_raw_ssd.py \
+#         ../mmdetection//configs/ssd/ssd_custom.py \
+#         ../mmdetection/work_dirs/ssd_custom/epoch_12.pth \
+#         ../mmdetection/data/banana-coco/train2017/0.png \
+#         --work-dir ./mmdeploy_model/ssd_2 \
+#         --device cpu \
+#         --dump-info
+
+# ssd-custom
+# python ./tools/deploy.py \
+#         ./configs/mmdet/detection/single-stage_ncnn_static-256x256_my.py \
+#         ../mmdetection//configs/ssd/ssd_custom_export.py \
+#         ./mmdeploy_model/ssd/epoch_12.pth \
+#         ../mmdetection/data/banana-coco/train2017/0.png \
+#         --work-dir ./mmdeploy_model/ssd_2 \
+#         --device cpu \
+#         --dump-info
+
+# ssd-custom 包含后处理  成功导出，而且onnx模型也能推理
+# python tools/deploy.py \
+#     configs/mmdet/detection/ssd_custom_onnxruntime_end2end_dynamic.py \
+#     ../mmdetection/configs/ssd/ssd_custom.py \
+#     ../mmdetection/work_dirs/ssd_custom/epoch_12.pth \
+#     ../mmdetection/data/banana-coco/train2017/0.png \
+#     --work-dir work_dirs/ssd_custom_onnx_end2end \
+#     --device cpu \
+#     --show \
+#     --dump-info
+
+
+# 导出没有后处理的模型
+#  python ./tools/torch2onnx.py \
+#    ./configs/mmdet/detection/yolov3_partition_onnxruntime_static_288_416.py \
+#    ../mmdetection/configs/yolo/yolov3_mobilenetv2_8xb24-ms-416-300e_coco_my.py \
+#    E:\workspace\lanyun_work\openmmlab\mmdetection\checkpoints\yolov3_mobilenetv2_mstrain-416_300e_coco_20210718_010823-f68a07b3.pth \
+#    ../mmdetection/demo/demo.jpg \
+#    --work-dir mmdeploy_model/yolov3_mobilenetv2 \
+#    --device cpu
+
